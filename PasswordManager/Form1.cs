@@ -23,7 +23,7 @@ namespace PasswordManager
             //making a string variable
             string connectionString;
             //and putting the connection string into that variable
-            connectionString = "server=223.27.22.124;user id=JBAdmin;password=0UFj2r*85cH3u#efFXgK;database=041402192_manpass";
+            connectionString = "server=223.27.22.124;user id=JBAdmin001;password=0UFj2r*85cH3u#efFXgK;database=041402192_manpass";
 
             //running the pipeline from the application into the server
             MySqlConnection pipeLine = new MySqlConnection(connectionString);
@@ -52,13 +52,43 @@ namespace PasswordManager
                 //making a string for the user password
                 string userPass;
                 //and putting the text from the user password into it
+                userPass = txt_Password.Text;
 
-
-                speechBubble = "INSERT INTO `account`(`ServiceName`, `AccountUName`, `AccountPWord`) VALUES ([value-2],[value-3],[value-4])"
+                speechBubble = "INSERT INTO `account`(`ServiceName`, `AccountUName`, `AccountPWord`) VALUES (" + serviceName + "," + userName + "," + userPass + ")";
 
                 //an adapter to talk to the server
-                MySqlDataAdapter squawkBox = new MySqlDataAdapter();
+                MySqlDataAdapter squawkBox = new MySqlDataAdapter(speechBubble, connectionString); //<this is what we'll send to the server
+
+                //now pulling that data back out
+                MySqlDataAdapter pullBack = new MySqlDataAdapter("SELECT * FROM `account`", connectionString);
+
+                //filling the bucket with water
+                pullBack.Fill(bucketOfWater);
+
+                //putting the data into the data grid view
+                //this.dataGridView1.Rows.Clear();
+
+                for (int count = 0; count <= bucketOfWater.Tables[0].Rows.Count - 1; count++)
+                {
+                    this.dataGridView1.Rows.Add(
+                    bucketOfWater.Tables[0].Rows[count].ItemArray[0].ToString(),
+                    bucketOfWater.Tables[0].Rows[count].ItemArray[1].ToString(),
+                    bucketOfWater.Tables[0].Rows[count].ItemArray[2].ToString(),
+                    bucketOfWater.Tables[0].Rows[count].ItemArray[3].ToString()
+                    );
+
+                }
             }
+
+            catch (MySqlException error)
+            {
+                MessageBox.Show("Connection Unsuccessful" + error.Message);
+            }
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }
