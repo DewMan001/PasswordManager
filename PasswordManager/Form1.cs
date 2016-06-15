@@ -16,5 +16,10 @@ namespace PasswordManager
         {
             InitializeComponent();
         }
+
+        private void btn_Submit_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
