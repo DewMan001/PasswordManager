@@ -36,28 +36,40 @@ namespace PasswordManager
                 //opening the connection
                 pipeLine.Open();
 
+                //clearing out the data grid view
+                dataGridView1.Rows.Clear();
+                dataGridView1.Refresh();
+
                 //the full string which shall be spoken to the server
                 string speechBubble;
 
                 //making a string for the service name
                 string serviceName;
                 //and putting the text from the service name text box into it
-                serviceName = txt_ServiceName.Text;
+                serviceName = "'" + txt_ServiceName.Text + "'";
                 
                 //making a string for the username
                 string userName;
                 //and putting the text of the username into it
-                userName = txt_Username.Text;
+                userName = "'" + txt_Username.Text + "'";
                 
                 //making a string for the user password
                 string userPass;
                 //and putting the text from the user password into it
-                userPass = txt_Password.Text;
+                userPass = "'" + txt_Password.Text + "'";
 
+                //making a string to act as the SQL command
                 speechBubble = "INSERT INTO `account`(`ServiceName`, `AccountUName`, `AccountPWord`) VALUES (" + serviceName + "," + userName + "," + userPass + ")";
 
-                //an adapter to talk to the server
-                MySqlDataAdapter squawkBox = new MySqlDataAdapter(speechBubble, connectionString); //<this is what we'll send to the server
+                MySqlConnection connection = new MySqlConnection(connectionString);
+
+                //string speechBubble2;
+                //speechBubble2 = "INSERT INTO `account`(`ServiceName`, `AccountUName`, `AccountPWord`) VALUES ('dickbutt','dick@butt.com','buttdick')";
+
+                MySqlCommand commandLine = new MySqlCommand(speechBubble, connection);
+                connection.Open();
+                commandLine.ExecuteNonQuery();
+                connection.Close();
 
                 //now pulling that data back out
                 MySqlDataAdapter pullBack = new MySqlDataAdapter("SELECT * FROM `account`", connectionString);
