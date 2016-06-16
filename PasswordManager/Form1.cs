@@ -61,6 +61,7 @@ namespace PasswordManager
                 //making a string to act as the SQL command
                 speechBubble = "INSERT INTO `account`(`ServiceName`, `AccountUName`, `AccountPWord`) VALUES (" + serviceName + "," + userName + "," + userPass + ")";
 
+                //making a new MySqlConnection object, and putting the connectionString into it.
                 MySqlConnection connection = new MySqlConnection(connectionString);
 
                 //string speechBubble2;
@@ -78,7 +79,6 @@ namespace PasswordManager
                 pullBack.Fill(bucketOfWater);
 
                 //putting the data into the data grid view
-                //this.dataGridView1.Rows.Clear();
 
                 for (int count = 0; count <= bucketOfWater.Tables[0].Rows.Count - 1; count++)
                 {
@@ -94,7 +94,7 @@ namespace PasswordManager
 
             catch (MySqlException error)
             {
-                MessageBox.Show("Connection Unsuccessful" + error.Message);
+                MessageBox.Show("Connection Unsuccessful \n \n" + error.Message);
             }
         }
 
